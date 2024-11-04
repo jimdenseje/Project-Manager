@@ -1,8 +1,61 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
-using var db = new BloggingContext();
+public class Program {
 
+    static void Main(string[] args)
+    {
+        //SeedTasks();
+        PrintDatabase();
+    }
+
+    static BloggingContext db = new BloggingContext();
+
+    static void SeedTasks()
+    {
+        // Note: This sample requires the database to be created before running.
+        Console.WriteLine($"Database path: {db.DbPath}.");
+
+        // Create
+        Console.WriteLine("Inserting Task Produce software");
+        Task ProduceSoftware = new Task { Name = "Produce software" };
+        ProduceSoftware.ToDos.Add(new ToDo { Name = "Write code" });
+        ProduceSoftware.ToDos.Add(new ToDo { Name = "Compile source" });
+        ProduceSoftware.ToDos.Add(new ToDo { Name = "Test program" });
+        db.Add(ProduceSoftware);
+
+        Console.WriteLine("Inserting Task Brew coffee");
+        Task BrewCoffee = new Task { Name = "Brew coffee" };
+        BrewCoffee.ToDos.Add(new ToDo { Name = "Pour water" });
+        BrewCoffee.ToDos.Add(new ToDo { Name = "Pour coffee" });
+        BrewCoffee.ToDos.Add(new ToDo { Name = "Turn on" });
+        db.Add(BrewCoffee);
+
+
+        db.SaveChanges();
+    }
+
+    static void PrintDatabase()
+    {
+        var tasks = db.Tasks
+            .Include(a => a.ToDos)
+            .OrderBy(a => a.TaskId)
+        ;
+
+        foreach (var task in tasks) { 
+           Console.WriteLine(task.Name);
+            foreach (var toDo in task.ToDos) {
+                Console.WriteLine("  * " + toDo.Name);
+            }
+            Console.WriteLine("");
+        }
+
+    }
+
+}
+/*
+ * 
 // Note: This sample requires the database to be created before running.
 Console.WriteLine($"Database path: {db.DbPath}.");
 
@@ -32,3 +85,5 @@ Console.WriteLine(task.ToString());
 Console.WriteLine("Delete the Task");
 db.Remove(task);
 db.SaveChanges();
+
+*/

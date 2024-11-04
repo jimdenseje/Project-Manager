@@ -16,7 +16,7 @@ namespace Project_Manager.Migrations
                 {
                     TaskId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    name = table.Column<string>(type: "TEXT", nullable: false)
+                    Name = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -24,28 +24,29 @@ namespace Project_Manager.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ToDo",
+                name: "ToDos",
                 columns: table => new
                 {
                     ToDoId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    name = table.Column<string>(type: "TEXT", nullable: false),
-                    isComplete = table.Column<bool>(type: "INTEGER", nullable: false),
-                    TaskId = table.Column<int>(type: "INTEGER", nullable: true)
+                    Name = table.Column<string>(type: "TEXT", nullable: true),
+                    IsComplete = table.Column<bool>(type: "INTEGER", nullable: false),
+                    TaskId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ToDo", x => x.ToDoId);
+                    table.PrimaryKey("PK_ToDos", x => x.ToDoId);
                     table.ForeignKey(
-                        name: "FK_ToDo_Tasks_TaskId",
+                        name: "FK_ToDos_Tasks_TaskId",
                         column: x => x.TaskId,
                         principalTable: "Tasks",
-                        principalColumn: "TaskId");
+                        principalColumn: "TaskId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ToDo_TaskId",
-                table: "ToDo",
+                name: "IX_ToDos_TaskId",
+                table: "ToDos",
                 column: "TaskId");
         }
 
@@ -53,7 +54,7 @@ namespace Project_Manager.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ToDo");
+                name: "ToDos");
 
             migrationBuilder.DropTable(
                 name: "Tasks");

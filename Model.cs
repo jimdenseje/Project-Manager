@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class BloggingContext : DbContext
 {
     public DbSet<Task> Tasks { get; set; }
+    public DbSet<ToDo> ToDos { get; set; }
 
     public string DbPath { get; }
 
@@ -27,11 +28,6 @@ public class Task
     public string? Name { get; set; }
     public List<ToDo> ToDos { get; set; } = new();
 
-    public string ToString()
-    {
-        return Name;
-    }
-
 }
 
 public class ToDo
@@ -39,5 +35,8 @@ public class ToDo
     public int ToDoId { get; set; }
     public string? Name { get; set; }
     public bool IsComplete { get; set; } = false;
+
+    public int TaskId { get; set; }
+    public Task? Task { get; set; }
 
 }
