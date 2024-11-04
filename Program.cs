@@ -7,7 +7,8 @@ public class Program {
     static void Main(string[] args)
     {
         //SeedTasks();
-        PrintDatabase();
+        //PrintDatabase();
+        PrintIncompleteTasksAndTodos();
     }
 
     static BloggingContext db = new BloggingContext();
@@ -46,6 +47,26 @@ public class Program {
         foreach (var task in tasks) { 
            Console.WriteLine(task.Name);
             foreach (var toDo in task.ToDos) {
+                Console.WriteLine("  * " + toDo.Name);
+            }
+            Console.WriteLine("");
+        }
+
+    }
+
+    static void PrintIncompleteTasksAndTodos()
+    {
+        var tasks = db.Tasks
+            .Include(a => a.ToDos)
+            .OrderBy(a => a.TaskId)
+            .Where (a => a.ToDos.Any(s => s.IsComplete == false))
+        ;
+
+        foreach (var task in tasks)
+        {
+            Console.WriteLine(task.Name);
+            foreach (var toDo in task.ToDos)
+            {
                 Console.WriteLine("  * " + toDo.Name);
             }
             Console.WriteLine("");
