@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class BloggingContext : DbContext
 {
-    public DbSet<Task> Tasks { get; set; }
-    public DbSet<ToDo> ToDos { get; set; }
+    public DbSet<Task> Tasks { get; set; } // needed
+    public DbSet<ToDo> ToDos { get; set; } // needed
 
     public string DbPath { get; }
 
@@ -36,7 +36,7 @@ public class ToDo
     public string? Name { get; set; }
     public bool IsComplete { get; set; } = false;
 
-    public int TaskId { get; set; }
-    public Task? Task { get; set; }
+    public int TaskId { get; set; } //not needed but good to have
+    public Task? Task { get; set; } //not needed but good to have
 
 }
