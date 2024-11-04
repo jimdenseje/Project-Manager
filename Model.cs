@@ -36,7 +36,7 @@ public class ToDo
     public string? Name { get; set; }
     public bool IsComplete { get; set; } = false;
 
-    public int TaskId { get; set; } //not needed but good to have
-    public Task? Task { get; set; } //not needed but good to have
+    public int TaskId { get; set; } //not needed but good to have //is set by ORM
+    public Task? Task { get; set; } //not needed but good to have //is set by ORM
 
 }
